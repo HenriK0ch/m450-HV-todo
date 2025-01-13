@@ -29,24 +29,32 @@ jobs:
           java-version: '23'
           distribution: 'temurin'
 
-      # Step 3: Cache Gradle dependencies
+      # Step 3: Navigate to the todo directory
+      - name: Change working directory
+        run: cd todo
+
+      # Step 4: Cache Gradle dependencies
       - name: Cache Gradle dependencies
         uses: actions/cache@v3
         with:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          key: ${{ runner.os }}-gradle-${{ hashFiles('todo/**/*.gradle*', 'todo/**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      # Step 4: Build the project
+      # Step 5: Build the project
       - name: Build with Gradle
-        run: ./gradlew clean build
+        run: |
+          cd todo
+          ./gradlew clean build
 
-      # Step 5: Run tests
+      # Step 6: Run tests
       - name: Run tests
-        run: ./gradlew test
+        run: |
+          cd todo
+          ./gradlew test
 
   deploy:
     name: Deploy to Production
@@ -68,6 +76,6 @@ jobs:
       # Step 3: Deploy the application
       - name: Deploy application
         run: |
-          echo "Deploying application..."
+          cd todo
           java -jar build/libs/*.jar
           echo "Application successfully deployed."
