@@ -1,0 +1,48 @@
+# GitLab CI/CD Pipeline Configuration for Gradle Project
+
+stages:
+  - build
+  - test
+  - deploy
+
+# Define the base image for the pipeline
+image: gradle:latest
+
+variables:
+  GRADLE_USER_HOME: "$CI_PROJECT_DIR/.gradle" # Cache Gradle dependencies in the project directory
+
+cache:
+  paths:
+    - .gradle/wrapper
+    - .gradle/caches
+
+# Build stage
+build-job:
+  stage: build
+  script:
+    - gradle clean build
+  artifacts:
+    when: always
+    paths:
+      - build/libs/*.jar
+    expire_in: 1 day
+
+# Test stage
+unit-test-job:
+  stage: test
+  script:
+    - gradle test
+  artifacts:
+    when: always
+    reports:
+      junit:
+        - build/test-results/test/*.xml
+
+# Deployment stage
+deploy-job:
+  stage: deploy
+  environment: production
+  script:
+    - echo "Deploying the application..."
+    - java -jar build/libs/*.jar
+    - echo "Application successfully deployed."
