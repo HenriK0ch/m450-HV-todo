@@ -10,6 +10,7 @@ on:
   pull_request:
     branches:
       - main # Run on pull requests targeting the main branch
+  workflow_dispatch: # Enable manual workflow execution
 
 jobs:
   build:
