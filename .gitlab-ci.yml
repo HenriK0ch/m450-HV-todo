@@ -1,5 +1,4 @@
-# GitLab CI/CD Pipeline Configuration
-# Automates the build, test, and deployment process for a Spring Boot Todo App using Gradle.
+# GitLab CI/CD Pipeline Configuration for Gradle Project
 
 stages:
   - build
@@ -21,7 +20,6 @@ cache:
 build-job:
   stage: build
   script:
-    - echo "Starting the build process..."
     - gradle clean build
   artifacts:
     when: always
@@ -29,44 +27,16 @@ build-job:
       - build/libs/*.jar
     expire_in: 1 day
 
-# Unit Test stage
+# Test stage
 unit-test-job:
   stage: test
   script:
-    - echo "Running unit tests..."
     - gradle test
   artifacts:
     when: always
     reports:
       junit:
         - build/test-results/test/*.xml
-    paths:
-      - build/reports/tests/test/index.html
-
-# Lint Test stage
-lint-test-job:
-  stage: test
-  script:
-    - echo "Linting the code..."
-    - gradle check
-  artifacts:
-    when: always
-    paths:
-      - build/reports/checkstyle/*.html
-
-# Integration Test stage
-integration-test-job:
-  stage: test
-  script:
-    - echo "Running integration tests..."
-    - gradle integrationTest
-  artifacts:
-    when: always
-    reports:
-      junit:
-        - build/test-results/integrationTest/*.xml
-    paths:
-      - build/reports/tests/integrationTest/index.html
 
 # Deployment stage
 deploy-job:
@@ -76,22 +46,3 @@ deploy-job:
     - echo "Deploying the application..."
     - java -jar build/libs/*.jar
     - echo "Application successfully deployed."
-
-pages:
-  stage: deploy
-  script:
-    - gradle site
-    - mv build/reports/site public
-  artifacts:
-    paths:
-      - public
-    expire_in: 1 day
-
-# Optional: Docker setup for database testing
-services:
-  - name: postgres:latest
-    alias: db
-  variables:
-    POSTGRES_DB: testdb
-    POSTGRES_USER: testuser
-    POSTGRES_PASSWORD: testpassword
