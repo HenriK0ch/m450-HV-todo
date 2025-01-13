@@ -1,4 +1,4 @@
-# Welcome to our todo list project.
+# Welcome to our todo list project
 
 ## Testkonzept für das Projekt "Spring Boot Todo App"
 
