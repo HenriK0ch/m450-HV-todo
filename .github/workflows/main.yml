@@ -27,6 +27,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '23'
+          distribution: 'temurin'
 
       # Step 3: Cache Gradle dependencies
       - name: Cache Gradle dependencies
@@ -62,6 +63,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '23'
+          distribution: 'temurin'
 
       # Step 3: Deploy the application
       - name: Deploy application
