@@ -1,8 +1,6 @@
 # .github/workflows/gradle-ci.yml
-
 name: CI Workflow
 
-# Triggers for the workflow
 on:
   push:
     branches:
@@ -14,7 +12,7 @@ on:
 
 jobs:
   build:
-    name: Build and Deploy
+    name: Build Without Database Tests
     runs-on: ubuntu-latest
 
     steps:
@@ -29,37 +27,14 @@ jobs:
           java-version: '23'
           distribution: 'temurin'
 
-      # Step 3: Navigate to the todo directory and set permissions
+      # Step 3: Set executable permissions
       - name: Set executable permissions
         run: |
           cd todo
           chmod +x gradlew
 
-      # Step 4: Cache Gradle dependencies
-      - name: Cache Gradle dependencies
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('todo/**/*.gradle*', 'todo/**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-
-      # Step 5: Build the project
-      - name: Build with Gradle
+      # Step 4: Build and Test
+      - name: Build and Test (No Database)
         run: |
           cd todo
-          ./gradlew clean bootJar -x test
-
-      # Step 6: Verify the JAR file
-      - name: Verify JAR file exists
-        run: |
-          cd todo/build/libs
-          ls -la
-
-      # Step 7: Deploy the application
-      - name: Deploy application
-        run: |
-          cd todo
-          java -jar build/libs/todo-0.0.1-SNAPSHOT.jar
+          ./gradlew clean test -Dspring.profiles.active=ci
