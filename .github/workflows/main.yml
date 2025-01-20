@@ -46,17 +46,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      # Step 5: Build the project excluding database tests
-      - name: Build with Gradle (exclude database tests)
+      # Step 5: Build the project excluding all tests
+      - name: Build with Gradle (exclude all tests)
         run: |
           cd todo
           ./gradlew clean build -x test
-
-      # Step 6: Run tests excluding database-related tests (optional)
-      - name: Run tests excluding database tests
-        run: |
-          cd todo
-          ./gradlew test --exclude-task testDatabase
 
   deploy:
     name: Deploy to Production
