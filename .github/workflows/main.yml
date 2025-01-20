@@ -14,7 +14,7 @@ on:
 
 jobs:
   build:
-    name: Build Without Database Tests
+    name: Build Without Tests
     runs-on: ubuntu-latest
 
     steps:
@@ -46,11 +46,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      # Step 5: Build the project excluding all tests
-      - name: Build with Gradle (exclude all tests)
+      # Step 5: Build the project
+      - name: Build with Gradle
         run: |
           cd todo
-          ./gradlew clean build -x test
+          ./gradlew clean bootJar -x test
 
   deploy:
     name: Deploy to Production
