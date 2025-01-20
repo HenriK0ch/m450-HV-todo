@@ -1,4 +1,4 @@
-package todo.src.main.java.com.vh_todo.todo;
+package com.vh_todo.todo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -7,12 +7,15 @@
         <processorPath useClasspath="false">
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.30/f195ee86e6c896ea47a1d39defbe20eb59cd149d/lombok-1.18.30.jar" />
         </processorPath>
-        <module name="todo.todo.main~1" />
+        <module name="todo.main" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
+    <bytecodeTargetLevel target="23">
+      <module name="todo.todo" target="23" />
       <module name="todo.todo.main" target="23" />
+      <module name="todo.todo.main~1" target="23" />
       <module name="todo.todo.test" target="23" />
+      <module name="todo.todo.test~1" target="23" />
     </bytecodeTargetLevel>
   </component>
 </project>
