@@ -29,9 +29,11 @@ jobs:
           java-version: '23'
           distribution: 'temurin'
 
-      # Step 3: Navigate to the todo directory
-      - name: Change working directory
-        run: cd todo
+      # Step 3: Navigate to the todo directory and set permissions
+      - name: Set executable permissions
+        run: |
+          cd todo
+          chmod +x gradlew
 
       # Step 4: Cache Gradle dependencies
       - name: Cache Gradle dependencies
