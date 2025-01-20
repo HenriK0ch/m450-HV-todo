@@ -14,7 +14,7 @@ on:
 
 jobs:
   build:
-    name: Build Without Tests
+    name: Build and Deploy
     runs-on: ubuntu-latest
 
     steps:
@@ -58,26 +58,8 @@ jobs:
           cd todo/build/libs
           ls -la
 
-  deploy:
-    name: Deploy to Production
-    runs-on: ubuntu-latest
-    needs: build
-
-    steps:
-      # Step 1: Checkout the code
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      # Step 2: Set up Java
-      - name: Set up JDK 23
-        uses: actions/setup-java@v3
-        with:
-          java-version: '23'
-          distribution: 'temurin'
-
-      # Step 3: Deploy the application
+      # Step 7: Deploy the application
       - name: Deploy application
         run: |
           cd todo
           java -jar build/libs/todo-0.0.1-SNAPSHOT.jar
-          echo "Application successfully deployed."
