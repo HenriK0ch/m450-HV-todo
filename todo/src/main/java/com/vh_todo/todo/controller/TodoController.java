@@ -3,70 +3,42 @@ package com.vh_todo.todo.controller;
 import com.vh_todo.todo.model.TodoItem;
 import com.vh_todo.todo.service.TodoItemService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.time.LocalDate;
+import java.util.List;
 
-@Controller
+@RestController
+@RequestMapping("/api/todos")
 public class TodoController {
 
     @Autowired
     private TodoItemService todoItemService;
 
-    @GetMapping("/")
-    public String index(Model model) {
-        model.addAttribute("todoItems", todoItemService.getAllTodoItems());
-        model.addAttribute("today", LocalDate.now());
-        return "index";
+    @GetMapping
+    public List<TodoItem> getAllTodos() {
+        return todoItemService.getAllTodoItems();
     }
 
-    @GetMapping("/add")
-    public String showAddForm(Model model) {
-        model.addAttribute("todoItem", new TodoItem());
-        return "add-todo";
+    @GetMapping("/{id}")
+    public TodoItem getTodoById(@PathVariable Long id) {
+        return todoItemService.getTodoItemById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid Todo ID: " + id));
     }
 
     @PostMapping("/add")
-    public String addTodoItem(@ModelAttribute TodoItem todoItem, RedirectAttributes redirectAttributes) {
-        todoItemService.saveTodoItem(todoItem);
-        redirectAttributes.addFlashAttribute("message", "Todo item added successfully!");
-        return "redirect:/";
+    public TodoItem createTodo(@RequestBody TodoItem todoItem) {
+        return todoItemService.saveTodoItem(todoItem);
     }
 
-    @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable Long id, Model model) {
-        TodoItem todoItem = todoItemService.getTodoItemById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid todo item Id:" + id));
-        model.addAttribute("todoItem", todoItem);
-        return "edit-todo";
-    }
-
-    @PostMapping("/edit/{id}")
-    public String updateTodoItem(@PathVariable Long id, @ModelAttribute TodoItem todoItem, RedirectAttributes redirectAttributes) {
+    @PutMapping("/{id}")
+    public TodoItem updateTodo(@PathVariable Long id, @RequestBody TodoItem updatedItem) {
         todoItemService.getTodoItemById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid todo item Id:" + id));
-        todoItemService.saveTodoItem(todoItem);
-        redirectAttributes.addFlashAttribute("message", "Todo item updated successfully!");
-        return "redirect:/";
+                .orElseThrow(() -> new IllegalArgumentException("Invalid Todo ID: " + id));
+        return todoItemService.saveTodoItem(updatedItem);
     }
 
-    @GetMapping("/delete/{id}")
-    public String deleteTodoItem(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+    @DeleteMapping("/{id}")
+    public void deleteTodo(@PathVariable Long id) {
         todoItemService.deleteTodoItem(id);
-        redirectAttributes.addFlashAttribute("message", "Todo item deleted successfully!");
-        return "redirect:/";
-    }
-
-    @PostMapping("/complete/{id}")
-    public String completeTodoItem(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-        TodoItem todoItem = todoItemService.getTodoItemById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid todo item Id:" + id));
-        todoItem.setCompleted(true);
-        todoItemService.saveTodoItem(todoItem);
-        redirectAttributes.addFlashAttribute("message", "Todo item completed!");
-        return "redirect:/";
     }
 }
