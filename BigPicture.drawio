@@ -74,7 +74,7 @@
         <mxCell id="18" value="Mapping" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
           <mxGeometry x="690" y="360" width="100" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="19" value="Schichtenarchitekturdiagramm für die Todo-Anwendung" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1;fontSize=16;" vertex="1" parent="1">
+        <mxCell id="19" value="Big Picture für die todo app" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1;fontSize=16;" vertex="1" parent="1">
           <mxGeometry x="280" y="10" width="480" height="30" as="geometry" />
         </mxCell>
       </root>
