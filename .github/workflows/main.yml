@@ -1,68 +1,62 @@
-# .github/workflows/docker-compose-ci.yml
+name: CI with Docker Compose
 
-name: CI Workflow with Docker Compose
-
-# Trigger events
 on:
   push:
     branches:
-      - main # Run on pushes to the main branch
+      - main
   pull_request:
     branches:
-      - main # Run on pull requests targeting the main branch
-  workflow_dispatch: # Allow manual workflow execution
+      - main
+  workflow_dispatch:
 
 jobs:
   build-and-test:
-    name: Build and Test with Docker Compose
     runs-on: ubuntu-latest
 
-    services:
-      db:
-        image: postgres:15
-        ports:
-          - 5432:5432
-        env:
-          POSTGRES_USER: user
-          POSTGRES_PASSWORD: password
-          POSTGRES_DB: testdb
-
     steps:
-      # Step 1: Checkout the code
+      # Step 1: Check out the code
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Step 2: Set up Docker Compose and database
+      # Step 2: Install Docker Compose (for Docker Compose V1)
+      - name: Install Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
+
+      # (Alternative for Docker Compose V2)
+      # - name: Docker info
+      #   run: |
+      #     docker version
+      #     docker compose version  # Confirm 'docker compose' is available
+
+      # Step 3: Spin up services via Docker Compose
       - name: Start Docker Compose
         run: |
           docker-compose -f todo/docker-compose.yml up -d
-          echo "Waiting for database to be ready..."
-          until docker exec db pg_isready -U user -d testdb; do
-            echo "Database not ready, retrying in 5 seconds..."
-            sleep 5
-          done
-          echo "Database is ready."
+          echo "Waiting a few seconds for services to be ready..."
+          sleep 10
 
-      # Step 3: Set up Java
+      # Step 4: Set up Java
       - name: Set up JDK 23
         uses: actions/setup-java@v3
         with:
           java-version: '23'
           distribution: 'temurin'
 
-      # Step 4: Set executable permissions for Gradle
-      - name: Set Gradle executable permissions
+      # Step 5: Make Gradle wrapper executable
+      - name: Make gradlew executable
         run: |
           cd todo
           chmod +x gradlew
 
-      # Step 5: Build and Test the project
-      - name: Build and Test with Gradle
+      # Step 6: Build (and optionally test) the project
+      - name: Build project
         run: |
           cd todo
           ./gradlew clean build
 
-      # Step 6: Tear down Docker Compose services
+      # Step 7: Tear down services
       - name: Tear down Docker Compose services
         if: always()
         run: |
