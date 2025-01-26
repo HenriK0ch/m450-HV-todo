@@ -18,15 +18,23 @@ repositories {
 }
 
 dependencies {
+	// Core Spring Boot
 	implementation 'org.springframework.boot:spring-boot-starter'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+	// PostgreSQL driver
+	implementation 'org.postgresql:postgresql:42.6.0'
+
+	// Lombok (reduces boilerplate getters/setters)
 	implementation 'org.projectlombok:lombok:1.18.30'
 	annotationProcessor 'org.projectlombok:lombok:1.18.30'
+
+	// Testing (JUnit, Mockito, AssertJ) included in spring-boot-starter-test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	// Optionally include the JUnit platform launcher if needed
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-	implementation 'org.postgresql:postgresql:42.6.0'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 tasks.named('test') {
