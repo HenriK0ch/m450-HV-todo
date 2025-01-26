@@ -11,8 +11,6 @@ S
 todo/gradlew.bat,2\0\20b86f4e728a3b7218af64e34175a02bc9e84045
 D
 todo/settings.gradle,a\b\abf3dcaad956f9a669442c9cc1188470c9d49eae
-m
-=todo/src/test/java/com/vh_todo/todo/TodoApplicationTests.java,9\4\9408eec635475d589d42cb744aeeff8efb76b9d2
 r
 Btodo/src/main/java/com/vh_todo/todo/controller/TodoController.java,c\a\ca0ab3a5816c978d7319fb21ba17469710c45652
 G
