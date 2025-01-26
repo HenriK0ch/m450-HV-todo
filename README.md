@@ -4,7 +4,8 @@
 
 ## Zusammenfassung
 Dieses Testkonzept beschreibt die Teststrategie für die "Spring Boot Todo App", eine Anwendung zur Verwaltung von Aufgaben. Ziel ist es, die Qualität der Anwendung durch systematische Tests sicherzustellen.
-## Big Picture: Systemarchitektur und Test Items
+## Big Picture: Systemarchitektur und Test Items <br>
+![BigPicture](BigPicture.png) <br><br>
 Die Anwendung basiert auf einer klassischen Spring-Boot-Architektur mit folgenden Komponenten:
 
 - **Model:** Repräsentiert die Datenstruktur (z. B. `TodoItem`-Klasse).
