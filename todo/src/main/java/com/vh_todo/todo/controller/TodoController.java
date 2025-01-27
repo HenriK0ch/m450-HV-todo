@@ -42,6 +42,11 @@ public class TodoController {
         return todoItemService.extendDueDate(id, days);
     }
 
+    @PutMapping("/{id}/shorten")
+    public TodoItem shortenDate(@PathVariable Long id, @RequestBody int days) {
+        return todoItemService.shortenDueDate(id, days);
+    }
+
     @DeleteMapping("/{id}")
     public void deleteTodo(@PathVariable Long id) {
         todoItemService.deleteTodoItem(id);

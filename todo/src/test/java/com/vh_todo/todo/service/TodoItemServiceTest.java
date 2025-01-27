@@ -16,6 +16,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
+/**
+ * Test class for TodoItemService that verifies the business logic for managing todo items.
+ * Uses Mockito for mocking the repository layer to isolate service layer testing.
+ */
 @ExtendWith(MockitoExtension.class)
 class TodoItemServiceTest {
 
@@ -25,6 +29,11 @@ class TodoItemServiceTest {
     @InjectMocks
     private TodoItemService todoItemService;
 
+    /**
+     * Tests the retrieval of all todo items.
+     * Verifies that the service correctly returns a list of todo items
+     * and that their properties are properly set.
+     */
     @Test
     void testGetAllTodoItems() {
         // Given
@@ -43,6 +52,10 @@ class TodoItemServiceTest {
         assertThat(results.get(1).getDescription()).isEqualTo("Todo 2");
     }
 
+    /**
+     * Tests the successful retrieval of a todo item by its ID.
+     * Verifies that the service returns the correct item when it exists in the repository.
+     */
     @Test
     void testGetTodoItemById_Found() {
         // Given
@@ -61,6 +74,10 @@ class TodoItemServiceTest {
         verify(todoItemRepository, times(1)).findById(id);
     }
 
+    /**
+     * Tests the behavior when attempting to retrieve a non-existent todo item.
+     * Verifies that the service returns an empty Optional when the item is not found.
+     */
     @Test
     void testGetTodoItemById_NotFound() {
         // Given
@@ -75,6 +92,11 @@ class TodoItemServiceTest {
         verify(todoItemRepository, times(1)).findById(id);
     }
 
+    /**
+     * Tests the creation/update of a todo item.
+     * Verifies that the service properly saves the item and returns it with
+     * all properties correctly set, including the generated ID.
+     */
     @Test
     void testSaveTodoItem() {
         // Given
@@ -99,6 +121,10 @@ class TodoItemServiceTest {
         verify(todoItemRepository, times(1)).save(itemToSave);
     }
 
+    /**
+     * Tests the deletion of a todo item.
+     * Verifies that the service properly delegates the deletion to the repository.
+     */
     @Test
     void testDeleteTodoItem() {
         // Given
@@ -111,6 +137,11 @@ class TodoItemServiceTest {
         verify(todoItemRepository, times(1)).deleteById(id);
     }
 
+    /**
+     * Tests the successful extension of a todo item's due date.
+     * Verifies that the service correctly adds the specified number of days
+     * to the existing due date and saves the updated item.
+     */
     @Test
     void testExtendDueDate_Success() {
         // Given
@@ -136,6 +167,10 @@ class TodoItemServiceTest {
         verify(todoItemRepository).save(existingItem);
     }
 
+    /**
+     * Tests the behavior when attempting to extend the due date of a non-existent item.
+     * Verifies that the service throws an IllegalArgumentException with appropriate message.
+     */
     @Test
     void testExtendDueDate_ItemNotFound() {
         // Given
@@ -145,6 +180,55 @@ class TodoItemServiceTest {
         // When/Then
         assertThat(assertThrows(IllegalArgumentException.class, () ->
             todoItemService.extendDueDate(id, 5)
+        )).hasMessageContaining("Invalid Todo ID: " + id);
+
+        verify(todoItemRepository).findById(id);
+        verify(todoItemRepository, never()).save(any());
+    }
+
+    /**
+     * Tests the successful shortening of a todo item's due date.
+     * Verifies that the service correctly subtracts the specified number of days
+     * from the existing due date and saves the updated item.
+     */
+    @Test
+    void testShortenDueDate_Success() {
+        // Given
+        Long id = 1L;
+        LocalDate initialDate = LocalDate.of(2025, 1, 1);
+        TodoItem existingItem = new TodoItem();
+        existingItem.setId(id);
+        existingItem.setDueDate(initialDate);
+        
+        TodoItem updatedItem = new TodoItem();
+        updatedItem.setId(id);
+        updatedItem.setDueDate(initialDate.minusDays(3));
+        
+        when(todoItemRepository.findById(id)).thenReturn(Optional.of(existingItem));
+        when(todoItemRepository.save(any(TodoItem.class))).thenReturn(updatedItem);
+
+        // When
+        TodoItem result = todoItemService.shortenDueDate(id, 3);
+
+        // Then
+        assertThat(result.getDueDate()).isEqualTo(initialDate.minusDays(3));
+        verify(todoItemRepository).findById(id);
+        verify(todoItemRepository).save(existingItem);
+    }
+
+    /**
+     * Tests the behavior when attempting to shorten the due date of a non-existent item.
+     * Verifies that the service throws an IllegalArgumentException with appropriate message.
+     */
+    @Test
+    void testShortenDueDate_ItemNotFound() {
+        // Given
+        Long id = 999L;
+        when(todoItemRepository.findById(id)).thenReturn(Optional.empty());
+
+        // When/Then
+        assertThat(assertThrows(IllegalArgumentException.class, () ->
+            todoItemService.shortenDueDate(id, 3)
         )).hasMessageContaining("Invalid Todo ID: " + id);
 
         verify(todoItemRepository).findById(id);
