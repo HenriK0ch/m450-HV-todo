@@ -37,13 +37,13 @@ public class TodoController {
         return todoItemService.saveTodoItem(updatedItem);
     }
 
-    @PutMapping("/{id}/extend")
-    public TodoItem extendDate(@PathVariable Long id, @RequestBody int days) {
+    @PutMapping("/{id}/extend/{days}")
+    public TodoItem extendDate(@PathVariable Long id, @PathVariable int days) {
         return todoItemService.extendDueDate(id, days);
     }
 
-    @PutMapping("/{id}/shorten")
-    public TodoItem shortenDate(@PathVariable Long id, @RequestBody int days) {
+    @PutMapping("/{id}/shorten/{days}")
+    public TodoItem shortenDate(@PathVariable Long id, @PathVariable int days) {
         return todoItemService.shortenDueDate(id, days);
     }
 
