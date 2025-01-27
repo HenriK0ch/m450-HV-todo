@@ -74,16 +74,34 @@ Am eigentlichen Code konnte ich keine Fehler feststellen, sodass hier keine weit
 
 Da wir auch in unserer Firma regelmäßig Code Reviews durchführen, war dieser Prozess für uns nichts Neues oder besonders Herausforderndes
 
-## TDD (Test Driven Development)
+# TDD (Test Driven Development)
 Wir haben Test-Driven Development (TDD) in unserem Projekt ausprobiert, indem wir ein neues Feature hinzugefügt haben. Dafür haben wir einen separaten Branch verwendet, den sogenannten feature-shorten-due-date-Branch. Nach unseren Erfahrungen können wir nun nachvollziehen, warum diese Methode häufig eingesetzt wird.
 
 TDD hilft dabei, Funktionen im Voraus deutlich besser zu planen, da man bereits vor der Implementierung festlegt, welche Ergebnisse die Funktion liefern soll. Dadurch wird sichergestellt, dass am Ende keine ungenauen oder unfertigen Funktionen entstehen.
 
 Trotzdem bevorzugen wir aktuell die normale Methode der Code-Entwicklung. Dies liegt vermutlich daran, dass es Zeit und Übung benötigt, um sich an die TDD-Methodik zu gewöhnen. Allgemein sind wir aber positiv überrascht von dieser Methode.
 
+# Test Rapport
 
+## Unit Tests
+![test](TestRapportUnitTest.png) <br><br>
 
+## Integration Tests
+![test](TestRapportIntegrationTest.png) <br><br>
 
+## Context Load Tests
+![test](ContextLoadTest.png) <br><br>
 
+## Postman Tests
 
+### Post
+![test](PostAdd.png) <br><br>
 
+### Get
+![test](PostGet.png) <br><br>
+
+### Put
+![test](PostPut.png) <br><br>
+
+### Del
+![test](PostDel.png) <br><br>
