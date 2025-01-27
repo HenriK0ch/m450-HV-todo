@@ -150,4 +150,44 @@ class TodoItemServiceTest {
         verify(todoItemRepository).findById(id);
         verify(todoItemRepository, never()).save(any());
     }
+
+    @Test
+    void testShortenDueDate_Success() {
+        // Given
+        Long id = 1L;
+        LocalDate initialDate = LocalDate.of(2025, 1, 1);
+        TodoItem existingItem = new TodoItem();
+        existingItem.setId(id);
+        existingItem.setDueDate(initialDate);
+        
+        TodoItem updatedItem = new TodoItem();
+        updatedItem.setId(id);
+        updatedItem.setDueDate(initialDate.minusDays(3));
+        
+        when(todoItemRepository.findById(id)).thenReturn(Optional.of(existingItem));
+        when(todoItemRepository.save(any(TodoItem.class))).thenReturn(updatedItem);
+
+        // When
+        TodoItem result = todoItemService.shortenDueDate(id, 3);
+
+        // Then
+        assertThat(result.getDueDate()).isEqualTo(initialDate.minusDays(3));
+        verify(todoItemRepository).findById(id);
+        verify(todoItemRepository).save(existingItem);
+    }
+
+    @Test
+    void testShortenDueDate_ItemNotFound() {
+        // Given
+        Long id = 999L;
+        when(todoItemRepository.findById(id)).thenReturn(Optional.empty());
+
+        // When/Then
+        assertThat(assertThrows(IllegalArgumentException.class, () ->
+            todoItemService.shortenDueDate(id, 3)
+        )).hasMessageContaining("Invalid Todo ID: " + id);
+
+        verify(todoItemRepository).findById(id);
+        verify(todoItemRepository, never()).save(any());
+    }
 }
