@@ -29,4 +29,11 @@ public class TodoItemService {
     public void deleteTodoItem(Long id) {
         todoItemRepository.deleteById(id);
     }
+
+    public TodoItem extendDueDate(Long id, int days) {
+        TodoItem todoItem = getTodoItemById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid Todo ID: " + id));
+        todoItem.setDueDate(todoItem.getDueDate().plusDays(days));
+        return saveTodoItem(todoItem);
+    }
 }

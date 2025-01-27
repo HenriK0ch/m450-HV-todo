@@ -37,6 +37,11 @@ public class TodoController {
         return todoItemService.saveTodoItem(updatedItem);
     }
 
+    @PutMapping("/{id}/extend")
+    public TodoItem extendDate(@PathVariable Long id, @RequestBody int days) {
+        return todoItemService.extendDueDate(id, days);
+    }
+
     @DeleteMapping("/{id}")
     public void deleteTodo(@PathVariable Long id) {
         todoItemService.deleteTodoItem(id);

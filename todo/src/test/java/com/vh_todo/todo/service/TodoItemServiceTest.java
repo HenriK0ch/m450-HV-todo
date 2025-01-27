@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -108,5 +109,45 @@ class TodoItemServiceTest {
 
         // Then
         verify(todoItemRepository, times(1)).deleteById(id);
+    }
+
+    @Test
+    void testExtendDueDate_Success() {
+        // Given
+        Long id = 1L;
+        LocalDate initialDate = LocalDate.of(2025, 1, 1);
+        TodoItem existingItem = new TodoItem();
+        existingItem.setId(id);
+        existingItem.setDueDate(initialDate);
+        
+        TodoItem updatedItem = new TodoItem();
+        updatedItem.setId(id);
+        updatedItem.setDueDate(initialDate.plusDays(5));
+        
+        when(todoItemRepository.findById(id)).thenReturn(Optional.of(existingItem));
+        when(todoItemRepository.save(any(TodoItem.class))).thenReturn(updatedItem);
+
+        // When
+        TodoItem result = todoItemService.extendDueDate(id, 5);
+
+        // Then
+        assertThat(result.getDueDate()).isEqualTo(initialDate.plusDays(5));
+        verify(todoItemRepository).findById(id);
+        verify(todoItemRepository).save(existingItem);
+    }
+
+    @Test
+    void testExtendDueDate_ItemNotFound() {
+        // Given
+        Long id = 999L;
+        when(todoItemRepository.findById(id)).thenReturn(Optional.empty());
+
+        // When/Then
+        assertThat(assertThrows(IllegalArgumentException.class, () ->
+            todoItemService.extendDueDate(id, 5)
+        )).hasMessageContaining("Invalid Todo ID: " + id);
+
+        verify(todoItemRepository).findById(id);
+        verify(todoItemRepository, never()).save(any());
     }
 }
