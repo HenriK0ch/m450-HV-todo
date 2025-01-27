@@ -68,7 +68,11 @@ Diese GitHub-Actions-Pipeline baut das Projekt in einer Docker-basierten Umgebun
 
 # Code Review
 
-Beim Code Review habe ich festgestellt, das uns noch jede Menge Kommentare fehlen die nun mal essentiell fuer ein solches Projekt sind. Dies hat Valentin nun implementiert. Beim Code an sich konnte ich keine Fehler finden sodass es dort nichts zu verbessern gab. Wir beide haben uns gegenseitig immer kontroliert indem wir die Commits der anderen Peson bevor einem Pull immer überprüft haben.
+Beim Code Review ist mir aufgefallen, dass noch viele Kommentare fehlten, die für ein solches Projekt essenziell sind. Valentin hat sich dieser Aufgabe angenommen und die fehlenden Kommentare ergänzt.
+
+Am eigentlichen Code konnte ich keine Fehler feststellen, sodass hier keine weiteren Verbesserungen nötig waren. Wir haben uns gegenseitig regelmäßig kontrolliert, indem wir vor jedem Pull die Commits der jeweils anderen Person überprüft haben.
+
+Da wir auch in unserer Firma regelmäßig Code Reviews durchführen, war dieser Prozess für uns nichts Neues oder besonders Herausforderndes
 
 ## TDD (Test Driven Development)
 Wir haben Test-Driven Development (TDD) in unserem Projekt ausprobiert, indem wir ein neues Feature hinzugefügt haben. Dafür haben wir einen separaten Branch verwendet, den sogenannten feature-shorten-due-date-Branch. Nach unseren Erfahrungen können wir nun nachvollziehen, warum diese Methode häufig eingesetzt wird.
