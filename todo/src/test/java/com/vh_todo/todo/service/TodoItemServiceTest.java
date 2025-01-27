@@ -234,4 +234,21 @@ class TodoItemServiceTest {
         verify(todoItemRepository).findById(id);
         verify(todoItemRepository, never()).save(any());
     }
+    
+    @Test
+    void testDeleteTodoItem_NotExistingId() {
+        // Test to ensure that attempting to delete a non-existent TodoItem throws an exception.
+        // Given
+        Long id = 999L;
+        doThrow(new IllegalArgumentException("Invalid Todo ID: " + id))
+                .when(todoItemRepository).deleteById(id);
+
+        // When/Then
+        assertThat(assertThrows(IllegalArgumentException.class, () ->
+                todoItemService.deleteTodoItem(id) // Non-existent ID
+        )).hasMessageContaining("Invalid Todo ID: " + id);
+
+        // Verify that the repository delete method was invoked once with the invalid ID.
+        verify(todoItemRepository, times(1)).deleteById(id);
+    }
 }
