@@ -1,6 +1,6 @@
 # Welcome to our todo list project
 
-## Testkonzept für das Projekt "Spring Boot Todo App"
+# Testkonzept für das Projekt "Spring Boot Todo App"
 
 ## Zusammenfassung
 Dieses Testkonzept beschreibt die Teststrategie für die "Spring Boot Todo App", eine Anwendung zur Verwaltung von Aufgaben. Ziel ist es, die Qualität der Anwendung durch systematische Tests sicherzustellen.
@@ -56,6 +56,10 @@ Ein Test gilt als nicht erfolgreich, wenn:
 
 ## Kurze Planung
 
-## CI Pipeline
+# CI Pipeline
 
 Diese GitHub-Actions-Pipeline baut das Projekt in einer Docker-basierten Umgebung, sobald Code in irgendeinem Branch gepusht oder ein Pull Request geöffnet wird (oder wenn die Pipeline manuell gestartet wird). Zunächst wird der aktuelle Code aus dem Repository geholt und Docker Compose installiert. Anschließend werden über Docker Compose alle benötigten Dienste (beispielsweise die Datenbank) hochgefahren und es wird einige Sekunden gewartet, damit sie einsatzbereit sind. Danach richtet die Pipeline Java 23 ein, macht das Gradle-Skript ausführbar und führt den Befehl „./gradlew clean build“ aus, um das Projekt zu kompilieren und zu testen. Zum Schluss werden alle über Docker Compose gestarteten Dienste wieder heruntergefahren, sodass keine Container zurückbleiben.
+
+# Code Review
+
+Beim Code Review habe ich festgestellt, das uns noch jede Menge Kommentare fehlen die nun mal essentiell fuer ein solches Projekt sind. Dies hat Valentin nun implementiert. Beim Code an sich konnte ich keine Fehler finden sodass es dort nichts zu verbessern gab.
