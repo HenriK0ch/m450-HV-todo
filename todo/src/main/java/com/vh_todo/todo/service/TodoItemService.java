@@ -36,4 +36,11 @@ public class TodoItemService {
         todoItem.setDueDate(todoItem.getDueDate().plusDays(days));
         return saveTodoItem(todoItem);
     }
+
+    public TodoItem shortenDueDate(Long id, int days) {
+        TodoItem todoItem = getTodoItemById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid Todo ID: " + id));
+        todoItem.setDueDate(todoItem.getDueDate().minusDays(days));
+        return saveTodoItem(todoItem);
+    }
 }
