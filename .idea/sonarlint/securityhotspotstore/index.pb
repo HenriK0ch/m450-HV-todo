@@ -1,6 +1,4 @@
 
-?
-todo/.gitignore,a\7\a71640a36d3dd7d760561b9b4cab55ada2a234c6
 ]
 -todo/gradle/wrapper/gradle-wrapper.properties,7\8\784ed198fe135fb207057bd888d65b7bbea71adc
 S
