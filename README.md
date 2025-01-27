@@ -1,5 +1,7 @@
 # Welcome to our todo list project
 
+Präsentation: https://docs.google.com/presentation/d/1HHo8Bg_rIJPGrVNUVoRZ2LFwnSsv-xFgqtGz8CknDhs/edit?usp=sharing
+
 # Testkonzept für das Projekt "Spring Boot Todo App"
 
 ## Zusammenfassung
